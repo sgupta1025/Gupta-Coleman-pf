@@ -1,6 +1,8 @@
 #include<iostream>
-#include <string>
+#include <string.h>
+#include <stdio.h>
 #include<unistd.h>
+#include <sys/wait.h>
 #include <cstdlib>
 using namespace std;
 int main(int argc, char* argv[], char* envp[])
@@ -13,13 +15,13 @@ int main(int argc, char* argv[], char* envp[])
 
 		if(dir.find(homeDir) != string::npos)
 		{
-		dir.replace(dir.find(homeDir), homeDir.length(), "~");
+			dir.replace(dir.find(homeDir), homeDir.length(), "~");
 		}
 		cout << "1730sh:" << dir << "$ ";
 		cin >> command;
-		cout << command << endl; 
+		cout << command << endl;
 	}
 	while(command.compare("exit") !=0);
-	
+
 
 }
