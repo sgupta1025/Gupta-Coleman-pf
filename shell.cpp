@@ -29,7 +29,7 @@ int main(int argc, char* argv[], char* envp[])
 			strArray[num++] = token;
 			token = strtok(NULL, " ");
 		}
-		for(int i =0; i < 10; i++)
+		for(int i =0; i < 11; i++)
 		{
 			if(i >= num)
 			{
