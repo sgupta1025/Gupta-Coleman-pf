@@ -5,7 +5,6 @@
 #include <sys/wait.h>
 #include <cstdlib>
 #include <fcntl.h>
-extern char** environ;
 using namespace std;
 int main(int argc, char* argv[], char* envp[])
 {
@@ -53,7 +52,6 @@ int main(int argc, char* argv[], char* envp[])
 		{
 			if(strArray[i] != NULL)
 			{
-				cout << strArray[i] << endl;
 				if(strcmp(strArray[i], ">") == 0)
 				{
 					redirVal = i;
@@ -71,7 +69,7 @@ int main(int argc, char* argv[], char* envp[])
 					redirVal = i;
 					flag = O_RDONLY;
 				}
-				
+
 
 			}
 		}
@@ -98,7 +96,16 @@ int main(int argc, char* argv[], char* envp[])
 			}
 			close(fd);
 		}
-		if(strcmp(strArray[0], "export") == 0)
+		if(strcmp(strArray[0], "exit") == 0)
+		{
+			break;
+			return 0;
+		}
+		if(strcmp(strArray[0], "cd") ==0)
+		{
+			cout << "cd" << endl;
+		}
+		else if(strcmp(strArray[0], "export") == 0)
 		{
 			//	cout << "export" << endl;
 			putenv(strArray[1]);
