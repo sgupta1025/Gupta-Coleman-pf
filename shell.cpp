@@ -55,13 +55,13 @@ int main(int argc, char* argv[], char* envp[])
 				if(strcmp(strArray[i], ">") == 0)
 				{
 					redirVal = i;
-					flag = O_WRONLY | O_TRUNC | O_CREAT;
+					flag = O_RDWR | O_TRUNC | O_CREAT;
 				}
 
 				if(strcmp(strArray[i], ">>") == 0)
 				{
 					redirVal = i;
-					flag = O_WRONLY | O_APPEND | O_CREAT;
+					flag = O_RDWR | O_APPEND | O_CREAT;
 				}
 
 				if(strcmp(strArray[i], "<") == 0)
@@ -94,7 +94,7 @@ int main(int argc, char* argv[], char* envp[])
 					perror("error");
 				}
 			}
-			close(fd);
+			//close(fd);
 		}
 		if(strcmp(strArray[0], "exit") == 0)
 		{
