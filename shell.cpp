@@ -21,6 +21,12 @@ int main(int argc, char* argv[], char* envp[])
 	int saveIn = dup(STDIN_FILENO);
 	while(command.compare("exit") !=0)
 	{
+		dir= get_current_dir_name();
+		homeDir = getenv("HOME");
+		if(dir.find(homeDir) != string::npos)
+		{
+			dir.replace(dir.find(homeDir), homeDir.length(), "~");
+		}
 		if(dup2(saveIn, STDIN_FILENO) ==-1)
 		{
 			perror("error");
@@ -79,7 +85,7 @@ int main(int argc, char* argv[], char* envp[])
 		}
 		if(strcmp(strArray[0], "cd") ==0)
 		{
-			cout << "cd" << endl;
+			chdir(strArray[1]);
 		}
 		else if(strcmp(strArray[0], "export") == 0)
 		{
