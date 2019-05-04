@@ -22,7 +22,6 @@ int main(int argc, char* argv[], char* envp[])
 	while(command.compare("exit") !=0)
 	{
 		dir= get_current_dir_name();
-		homeDir = getenv("HOME");
 		if(dir.find(homeDir) != string::npos)
 		{
 			dir.replace(dir.find(homeDir), homeDir.length(), "~");
@@ -78,6 +77,20 @@ int main(int argc, char* argv[], char* envp[])
 				perror("error opening");
 			}
 			dup2(fd, STDIN_FILENO);
+		}
+		for(int i =0; i < 13; i++)
+		{
+			if(strArray[i] == NULL)
+			{
+				break;
+			}
+			if(strcmp(strArray[i], "~") == 0)
+			{
+				strcpy(strArray[i], homeDir.c_str());
+				
+			}
+			
+
 		}
 		if(strcmp(strArray[0], "exit") == 0)
 		{
