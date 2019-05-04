@@ -8,7 +8,7 @@
 using namespace std;
 int main(int argc, char* argv[], char* envp[])
 {
-	string command;
+	string command = "\n";
 	string dir= get_current_dir_name();
 	string homeDir = getenv("HOME");
 	if(dir.find(homeDir) != string::npos)
@@ -86,8 +86,7 @@ int main(int argc, char* argv[], char* envp[])
 			}
 			if(strcmp(strArray[i], "~") == 0)
 			{
-				strcpy(strArray[i], homeDir.c_str());
-				
+				strArray[i] = const_cast<char *>(homeDir.c_str());	
 			}
 			
 
