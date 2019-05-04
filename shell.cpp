@@ -46,60 +46,36 @@ int main(int argc, char* argv[], char* envp[])
 				strArray[i] = NULL;
 			}
 		}
-		int redirVal = -1;
-		int flag =0;
-		for(int i =0; i < num; i++)
+		if(num >= 3 && command.find(">") != string::npos)
 		{
-			if(strArray[i] != NULL)
-			{
-				if(strcmp(strArray[i], ">") == 0)
-				{
-					redirVal = i;
-					flag = O_RDWR | O_TRUNC | O_CREAT;
-				}
-
-				if(strcmp(strArray[i], ">>") == 0)
-				{
-					redirVal = i;
-					flag = O_RDWR | O_APPEND | O_CREAT;
-				}
-
-				if(strcmp(strArray[i], "<") == 0)
-				{
-					redirVal = i;
-					flag = O_RDONLY;
-				}
-
-
-			}
-		}
-		if(redirVal != -1 && flag != 0)
-		{
-			int fd = open(strArray[redirVal + 1], flag);
+			int fd = open(strArray[num-1], O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
 			if(fd == -1)
 			{
-				perror("error");
+				perror("error opening");
 			}
-			if((flag  & O_WRONLY) !=0)
+			dup2(fd, STDOUT_FILENO);
+		}
+		if(num >= 3 && command.find(">>") != string::npos)
+		{
+			int fd = open(strArray[num-1], O_RDWR | O_APPEND);
+			if(fd == -1)
 			{
-				if(dup2(fd, STDOUT_FILENO) ==-1)
-				{
-					perror("error");
-				}
+				perror("error opening");
 			}
-			else if((flag & O_RDONLY) != 0)
+			dup2(fd, STDOUT_FILENO);
+		}
+		if(num >= 3 && command.find("<") != string::npos)
+		{
+			int fd = open(strArray[num-1], O_RDONLY );
+			if(fd == -1)
 			{
-				if(dup2(fd, STDIN_FILENO) == -1)
-				{
-					perror("error");
-				}
+				perror("error opening");
 			}
-			//close(fd);
+			dup2(fd, STDIN_FILENO);
 		}
 		if(strcmp(strArray[0], "exit") == 0)
 		{
 			break;
-			return 0;
 		}
 		if(strcmp(strArray[0], "cd") ==0)
 		{
